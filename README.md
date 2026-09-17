@@ -83,8 +83,8 @@ If you find this work useful, please cite:
 ```bibtex
 @article{lee2026mitigating,
   title={Mitigating Label Shift in Tabular In-Context Learning via Test-Time Posterior Adjustment},
-  author={Lee, Seunghan and Lee, Jaehoon and Seo, Jun and Yoo, Sungdong and Kim, Minjae and Lim, Tae Yoon and Kang, Dongwan and Choi, Hwanil and Lee, SoonYoung and Ahn, Wonbin},
-  journal={arXiv preprint arXiv:2605.04363},
+  author={Lee, Seunghan},
+  journal={ICML},
   year={2026}
 }
 ```
