@@ -20,7 +20,7 @@ DistPFN_T = True
 SEED = 2025 # [2025,2026,2027,2028,2029]
 beta = 0.5 # [0.0, 0.1, 0.5, 1.0, 2.0, 5.0]
 
-def cross_entropy(p, q, eps=1e-12):
+def distribution_cross_entropy(p, q, eps=1e-12):
     """
     p: (N, C) shape numpy array - target distributions (e.g., one-hot or soft labels)
     q: (C,) shape numpy array - predicted distribution (shared for all samples)
@@ -86,15 +86,15 @@ for did in tqdm(openml_list.index):
                 y_prob = classifier.predict_proba(X_test)
 
                 if DistPFN:
-                    P_test_avg = y_prob.mean(axis=0)  
+                    P_test_avg = y_prob.mean(axis=0, keepdims=True)
                     y_prior_train = np.bincount(y_train) / len(y_train)
                     adjusted = (y_prob * P_test_avg) / (y_prior_train + 1e-8)
                     y_prob = adjusted / adjusted.sum(axis=1, keepdims=True)  
                 
                 if DistPFN_T:
-                    P_test_avg = y_prob.mean(axis=0)
+                    P_test_avg = y_prob.mean(axis=0, keepdims=True)
                     y_prior_train = np.bincount(y_train) / len(y_train)
-                    tau = cross_entropy(P_test_avg, y_prior_train)
+                    tau = distribution_cross_entropy(P_test_avg, y_prior_train)
                     P_test_avg = softmax_temperature(P_test_avg, T=tau)
                     adjusted = (y_prob * P_test_avg) / (y_prior_train + 1e-8)
                     y_prob = adjusted / adjusted.sum(axis=1, keepdims=True)
